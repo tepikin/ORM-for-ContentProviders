@@ -7,7 +7,7 @@
  - итд
  
  
- Детального описания не будет, все можно посмотреть в UnitTests ( да и коментариев в библиотеке хавтает ).
+ Детального описания не будет, все можно посмотреть в UnitTests ( да и комментариев в библиотеке хватает ).
  
 ## Пример использования:
 Описываем Entity 
@@ -53,7 +53,7 @@ public class DatabaseHelper extends DefaultOpenHelper {
 }
 ```
 
- Содаем объект DAO:
+ Создаем объект DAO:
 
 ```java
 DaoManager manager = new DaoManager(context, providerAuthority);
