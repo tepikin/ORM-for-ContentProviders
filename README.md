@@ -10,10 +10,10 @@
  Детального описания не будет, все можно посмотреть в UnitTests ( да и комментариев в библиотеке хватает ).
  
 ## Пример использования:
-Описываем Entity 
+ Описываем Entity 
 ```java
 @DatabaseTable(name = "myitem")
-public class TableForTest {
+public class Entry {
     @MappedField(name = "date_1")
     @DatabaseField(name = "date_1", isNotNull = true)
     private Date date = new Date();
@@ -33,7 +33,6 @@ public class TableForTest {
     public void setText(String text) {
         this.text = text;
     }
-
 }
 ```
 
@@ -42,25 +41,59 @@ public class TableForTest {
 ```java
 public class DatabaseHelper extends DefaultOpenHelper {
 
-    private static final String NAME = null; // for store database in-memory.
+    private static final String NAME = "db_name";
 
     private static final int VERSION = 3;
 
     public DatabaseHelper(Context context) {
-        super(context, NAME, VERSION, TableForTest.class, TableForTest2.class);
+        super(context, NAME, VERSION, Entry.class, Entry2.class);
     }
-
 }
 ```
 
- Создаем объект DAO:
 
+ Добавляем провайдер ContentProvider:
+```java
+public class SampleContentProvider extends AttachableContentProvidersRouter {
+    
+    private DatabaseHelper dbHelper;
+    
+    protected List<AttachableContentProvider> createProviders(Context context) {
+        dbHelper = new DatabaseHelper(context);
+        List<AttachableContentProvider> providers = new ArrayList<AttachableContentProvider>();
+        
+        providers.add(new DbContentProvider(dbHelper, context)); //Provider for all DB tables.
+        
+        return providers;
+    }
+}
+```
+
+
+И описываем его в manifest:
+``` xml
+<provider
+    android:name=".SampleContentProvider"
+    android:authorities="ru.lazard.commons.client"
+    android:enabled="true"
+    android:exported="true">
+</provider>
+```
+
+
+
+
+---
+
+Теперь там где нужно использовать базу или провайдер создаем DAO и используем.
+
+ Создаем объект DAO:
 ```java
 DaoManager manager = new DaoManager(context, providerAuthority);
 Dao<TableForTest> daoTable = manager.getDao(TableForTest.class);
 ```
 
-Все готово к работе :
+ Все готово к работе :
 ```java
 daoTable.delete(null, null);
 daoTable.insert(new TableForTest());
