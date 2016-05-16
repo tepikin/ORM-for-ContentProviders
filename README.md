@@ -1,4 +1,4 @@
-# ORM-for-ContentProviders
+# ORM-for-ContentProviders <a href="https://flattr.com/submit/auto?fid=9zwvgy&url=https%3A%2F%2Fgithub.com%2Ftepikin%2FORM-for-ContentProviders" target="_blank"><img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" /></a>
 
 Можно использовать как :
  - ORM для Sqlite.
